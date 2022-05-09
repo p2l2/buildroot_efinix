@@ -108,7 +108,8 @@ OPENCV3_CONF_OPTS += \
 	-DBUILD_opencv_videoio=$(if $(BR2_PACKAGE_OPENCV3_LIB_VIDEOIO),ON,OFF) \
 	-DBUILD_opencv_videostab=$(if $(BR2_PACKAGE_OPENCV3_LIB_VIDEOSTAB),ON,OFF) \
 	-DBUILD_opencv_viz=OFF \
-	-DBUILD_opencv_world=OFF
+	-DBUILD_opencv_world=OFF \
+	-DBUILD_opencv_dnn=$(if $(BR2_PACKAGE_OPENCV3_LIB_DNN),ON,OFF)
 
 # Hardware support options.
 #
@@ -256,6 +257,13 @@ endif
 ifeq ($(BR2_PACKAGE_OPENCV3_WITH_GTK3),y)
 OPENCV3_CONF_OPTS += -DWITH_GTK=ON -DWITH_GTK_2_X=OFF
 OPENCV3_DEPENDENCIES += libgtk3
+endif
+
+ifeq ($(BR2_PACKAGE_OPENCV3_DNN),y)
+OPENCV3_CONF_OPTS += -DBUILD_opencv_dnn=ON \
+		     -DPROTOBUF_UPDATE_FILES=ON \
+		     -DWITH_PROTOBUF=ON
+OPENCV3_DEPENDENCIES += protobuf
 endif
 
 ifeq ($(BR2_PACKAGE_OPENCV3_WITH_JASPER),y)
