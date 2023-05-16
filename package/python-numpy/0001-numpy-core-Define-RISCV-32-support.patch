@@ -1,0 +1,59 @@
+From 8c47453e7d8a36371bd50b871492e4299e69ab4a Mon Sep 17 00:00:00 2001
+From: Mohamad Noor Alim Hussin <mnalim@efinixinc.com>
+Date: Thu, 24 Feb 2022 12:50:40 +0800
+Subject: [PATCH] numpy/core: Define RISCV-32 support
+
+Helps compile on riscv32
+
+Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/17780]
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Mohamad Noor Alim Hussin <mnalim@efinixinc.com>
+---
+ numpy/core/include/numpy/npy_cpu.h    | 9 +++++++--
+ numpy/core/include/numpy/npy_endian.h | 3 ++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/numpy/core/include/numpy/npy_cpu.h b/numpy/core/include/numpy/npy_cpu.h
+index 5edd8f42e..685f30906 100644
+--- a/numpy/core/include/numpy/npy_cpu.h
++++ b/numpy/core/include/numpy/npy_cpu.h
+@@ -18,6 +18,7 @@
+  *              NPY_CPU_ARCEL
+  *              NPY_CPU_ARCEB
+  *              NPY_CPU_RISCV64
++ *              NPY_CPU_RISCV32
+  */
+ #ifndef _NPY_CPUARCH_H_
+ #define _NPY_CPUARCH_H_
+@@ -100,8 +101,12 @@
+     #define NPY_CPU_ARCEL
+ #elif defined(__arc__) && defined(__BIG_ENDIAN__)
+     #define NPY_CPU_ARCEB
+-#elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
+-    #define NPY_CPU_RISCV64
++#elif defined(__riscv)
++    #if __riscv_xlen == 64
++       #define NPY_CPU_RISCV64
++    #elif __riscv_xlen == 32
++       #define NPY_CPU_RISCV32
++    #endif
+ #else
+     #error Unknown CPU, please report this to numpy maintainers with \
+     information about your platform (OS, CPU and compiler)
+diff --git a/numpy/core/include/numpy/npy_endian.h b/numpy/core/include/numpy/npy_endian.h
+index 44cdffd14..c93e7cbaf 100644
+--- a/numpy/core/include/numpy/npy_endian.h
++++ b/numpy/core/include/numpy/npy_endian.h
+@@ -48,7 +48,8 @@
+             || defined(NPY_CPU_MIPSEL)        \
+             || defined(NPY_CPU_PPC64LE)       \
+             || defined(NPY_CPU_ARCEL)         \
+-            || defined(NPY_CPU_RISCV64)
++            || defined(NPY_CPU_RISCV64)       \
++	    || defined(NPY_CPU_RISCV32)
+         #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
+     #elif defined(NPY_CPU_PPC)                \
+             || defined(NPY_CPU_SPARC)         \
+-- 
+2.17.1
+
