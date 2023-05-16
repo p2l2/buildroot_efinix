@@ -1,0 +1,23 @@
+From 44135c3d9807c6545da4ee1df6a81264cb2e76f8 Mon Sep 17 00:00:00 2001
+From: Mohamad Noor Alim Hussin <mnalim@efinixinc.com>
+Date: Tue, 16 May 2023 21:46:23 +0800
+Subject: [PATCH] setup.py: use python3
+
+Signed-off-by: Mohamad Noor Alim Hussin <mnalim@efinixinc.com>
+---
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index cdc3d92..9f50508 100755
+--- a/setup.py
++++ b/setup.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ try:
+     from setuptools import setup, Extension
+ except ImportError:
+-- 
+2.17.1
+
