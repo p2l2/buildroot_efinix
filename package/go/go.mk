@@ -65,6 +65,8 @@ else ifeq ($(BR2_mips64el),y)
 GO_GOARCH = mips64le
 else ifeq ($(BR2_s390x),y)
 GO_GOARCH = s390x
+else ifeq ($(BR2_riscv)$(BR2_ARCH_IS_64),yy)
+GO_GOARCH = riscv64
 endif
 
 # For the convienience of target packages.
